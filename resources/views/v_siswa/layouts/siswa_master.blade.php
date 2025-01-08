@@ -36,7 +36,7 @@
             <!-- Kelas Terdaftar Menu -->
             <li>
                 <a href="#">
-                    <img src="{{ asset('backend/icons/kelas.svg') }}" alt="Kelas Terdaftar" class="nav-icon">
+                    <img src="{{ asset('backend/icons/kelas.svg') }}" alt="Daftar Kelas" class="nav-icon">
                     Kelas Terdaftar
                 </a>
             </li>
