@@ -7,15 +7,16 @@
         <h2 class="mb-3">Kelas {{ $kelas->nama_kelas }} - Jenjang ke-{{ $kelas->jenjang }}</h2>
         
         <!-- Cek status kelas -->
-        @if ($kelasPelajaran->status === 'buka')
+        @if (isset($kelasPelajaran))
             <div class="alert alert-success">
                 Status: Kelas sedang berlangsung.
             </div>
         @else
-            <div class="alert alert-info">
-                Status: Kelas sudah berakhir.
+            <div class="alert alert-danger">
+                Data kelas tidak tersedia.
             </div>
         @endif
+
     </div>
 
     <!-- Navigasi -->
