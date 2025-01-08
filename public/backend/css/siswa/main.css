@@ -1,0 +1,204 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    background-color: #305cde;
+    color: white;
+    padding: 0.7rem 1rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+}
+
+.judul-link {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 2.5; 
+}
+
+.judul {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 0;
+    white-space: nowrap;
+    margin: -2px 0 0;
+}
+
+.judul-link:hover {
+    color: #ffec99;
+}
+
+.profile-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-wrapper a:hover .profile-pic {
+    transform: scale(1.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-toggle {
+    background-color: #305cde   ;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    padding: 0.2rem 0.8rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    position: fixed;
+    top: 0.3rem;
+    left: 0.3rem;
+    z-index: 1100;
+    transition: left 0.3s ease;
+}
+
+.menu-toggle.open {
+    top: 0;
+    font-size: 1.4rem;
+    left: 200px;
+    padding: 0.4rem 0.9rem;
+   
+
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background-color: #343a40;
+    color: #fff;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 1000;
+
+}
+
+.nav-icon {
+    width: 16px; /* Mengecilkan ikon */
+    height: 16px; /* Mengecilkan ikon */
+    margin-right: 8px; /* Mengurangi jarak antara ikon dan teks */
+    vertical-align: middle;
+}
+
+
+
+nav.open {
+    left: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+}
+
+nav ul li {
+    margin: 1rem 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: flex; /* Mengatur elemen teks dan ikon dalam satu baris */
+    align-items: center; /* Menyesuaikan posisi vertikal ikon dan teks */
+    padding: 0.3rem; /* Mengurangi padding untuk menghemat ruang */
+    font-size: 0.85rem; /* Mengecilkan ukuran font */
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    background-color: #305cde;
+}
+
+nav ul li .dropdown {
+    display: none;
+}
+
+nav ul li.open .dropdown {
+    display: block;
+    padding: 0;
+    margin: 0 0 0 1rem;
+}
+
+nav ul li .arrow {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+nav ul li.open .arrow {
+    transform: rotate(180deg);
+}
+
+main {
+    padding: 2rem;
+    margin-top: 0;
+    transition: margin-left 0.3s ease;
+}
+
+main.nav-open {
+    margin-left: 200px;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem; /* Mengurangi padding */
+    font-size: 0.8rem; /* Mengurangi ukuran font */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stats {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    header {
+        padding: 0.5rem;
+    }
+
+    .menu-toggle {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    main {
+        padding: 1rem;
+    }
+
+    .card h3 {
+        font-size: 1.5rem;
+    }
+}
