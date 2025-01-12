@@ -45,9 +45,10 @@
     <div class="table-container">
         <!-- Konten Dinamis -->
         <main id="content">
-            @yield('kelas-content') <!-- Konten spesifik untuk setiap tab -->
-        </main> 
+            @yield('kelas-content', view('v_guru.kelas_menu.siswa.list_siswa', ['kelas' => $kelas]))
+        </main>
     </div>
+</div>
 </div>
 
 @endsection

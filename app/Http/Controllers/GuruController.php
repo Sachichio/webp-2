@@ -236,7 +236,7 @@ class GuruController extends Controller
         $waliKelas = $guru->kelas ?? [];
         $mataPelajaran = $guru->pelajaran ?? [];
 
-        $currentTime = Carbon::now();
+        $jadwalPelajaran = [];
         foreach ($mataPelajaran as $pelajaran) {
             foreach ($pelajaran->kelas as $kelasMatapelajaran) {
                 $kelasPelajaran = KelasPelajaran::where('kelas_id', $kelasMatapelajaran->id)
@@ -244,22 +244,19 @@ class GuruController extends Controller
                     ->first();
 
                 if ($kelasPelajaran) {
-                    $jamMulai = Carbon::parse($kelasPelajaran->jam_mulai);
-                    $jamSelesai = Carbon::parse($kelasPelajaran->jam_selesai);
-
-                    if ($currentTime->between($jamMulai, $jamSelesai) && $kelasPelajaran->status === 'tutup') {
-                        $kelasPelajaran->status = 'buka';
-                        $kelasPelajaran->save();
-                    } elseif ($currentTime->greaterThan($jamSelesai) && $kelasPelajaran->status === 'buka') {
-                        $kelasPelajaran->status = 'tutup';
-                        $kelasPelajaran->save();
-                    }
+                    $jadwalPelajaran[] = [
+                        'kelas' => $kelasMatapelajaran->nama_kelas,
+                        'pelajaran' => $pelajaran->nama_pelajaran,
+                        'jam_mulai' => $kelasPelajaran->jam_mulai,
+                        'jam_selesai' => $kelasPelajaran->jam_selesai,
+                    ];
                 }
             }
         }
 
-        return view('v_guru.kelas_menu.kelas_list', compact('guru', 'waliKelas', 'mataPelajaran'));
+        return view('v_guru.kelas_menu.kelas_list', compact('guru', 'waliKelas', 'mataPelajaran', 'jadwalPelajaran'));
     }
+
 
     // Masuk ke halaman utama kelas
     public function kelasMaster($kelasPelajaranId)
@@ -270,31 +267,9 @@ class GuruController extends Controller
             return redirect()->route('guru.kelas_terdaftar')->with('error', 'Data kelas tidak ditemukan.');
         }
 
-        return view('v_guru.kelas_menu.layout_kelas.kelas_master', [
-            'kelasPelajaran' => $kelasPelajaran,
-            'kelas' => $kelasPelajaran->kelas,
-        ]);
+        // Redirect langsung ke tab siswa
+        return redirect()->route('guru.kelas.siswa', $kelasPelajaran->kelas->id);
     }
-        
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
 
     // GURU (LIST SISWA)
     public function kelasSiswa($kelas_id)

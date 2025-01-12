@@ -16,7 +16,7 @@
                             <h5 class="card-title">Wali Kelas: {{ $kelas->nama_kelas }}</h5>
                             <p class="small-text">Anda merupakan wali kelas dari kelas ini.</p>
                             <a href="{{ route('guru.kelas.wali', $kelas->id) }}" class="btn btn-primary mt-auto">
-                                Masuk Kelas
+                                Lihat Kelas
                             </a>
                         </div>
                     </div>
@@ -45,9 +45,9 @@
                                         @endphp
                                         <li class="me-3">
                                             @if ($kelasPelajaran)
-                                                <a href="{{ route('guru.kelas.master', $kelasPelajaran->id) }}">
-                                                    {{ $kelasMatapelajaran->nama_kelas }} ({{ $kelasMatapelajaran->jenjang }}) <br>
-                                                    {{ $kelasPelajaran->hari }} | Jam: {{ $kelasPelajaran->jam_mulai }} - {{ $kelasPelajaran->jam_selesai }}
+                                                <a href="{{ route('guru.kelas.master', $kelasPelajaran->id) }}" class="btn-primary2">
+                                                    {{ $kelasMatapelajaran->nama_kelas }} 
+                                                    ({{ $kelasPelajaran->hari }} | Jam: {{ $kelasPelajaran->jam_mulai }} - {{ $kelasPelajaran->jam_selesai }})
                                                 </a>
                                             @else
                                                 <span>Kelas belum ditemukan.</span>
@@ -135,6 +135,7 @@
 
     .card-text {
         font-size: 1rem;
+        margin-bottom: 8px;
         color: #555;
     }
 
@@ -195,6 +196,54 @@
     .col-12 {
         width: 100%;
     }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #d4d4d4; /* Warna abu-abu utama */
+        color: #305cde; /* Warna teks */
+        border: none;
+        font-size: 14px; /* Ukuran font */
+        text-decoration: none;
+        width: 80%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Animasi hover */
+    }
+
+    .btn-primary:hover {
+        background-color: grey; /* Warna abu-abu lebih gelap saat hover */
+        transform: translateY(-2px); /* Efek naik saat hover */
+        text-decoration: none; /* Hilangkan underline */
+        color: white;
+    }
+
+    .btn-primary2 {
+        background-color: #d4d4d4; /* Warna abu-abu utama */
+        color: #305cde; /* Warna teks */
+        border: none;
+        font-size: 14px;
+        text-decoration: none;
+        width: 100%;
+        padding: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: block; /* Elemen block-level */
+    }
+
+    .btn-primary2:hover {
+        background-color: grey; /* Warna abu-abu lebih gelap saat hover */
+        transform: translateY(-2px); /* Efek naik */
+        text-decoration: none; /* Hilangkan underline */
+        color: white !important; /* Warna teks putih */
+    }
+
+    /* List Item Styling */
+    li.me-3 {
+        display: flex; /* Pastikan elemen mengikuti model flexbox */
+        flex-direction: column; /* Susun vertikal jika ada elemen dalam <li> */
+        width: 100%; /* Buat <li> selebar container */
+        margin-bottom: 3px; /* Jarak antar <li> */
+    }
+
+
 </style>
 
 
