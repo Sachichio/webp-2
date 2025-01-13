@@ -1,3 +1,26 @@
+## WEBSITE ADMINISTRASI PENGELOLAAN DATA GURU DAN SISWA PADA SMP ANAK BANGSA
+Created by <a href="https://github.com/Sachichio/webp-2/" target="_blank">Kelompok 3</a>
+
+Anggota Kelompok 3:
+1. Alwan Farid Haidar (19230408)
+2. Ernanda Revalino (19230066)
+3. DAVANDA PUTRA HASBY (19231463)
+4. Daffa Rizki Akbar (19230478)
+5. Sacchio Alfonso Agustian (19230248)
+
+## Tutorial
+1. Download project menggunakan "Git" atau melalui "Download ZIP"
+2. Kemudian, extract file "vendor.rar"
+3. Selesai
+
+## Contributors
+1. Ernanda Revalino - Developer/Programmer
+2. Sacchio Alfonso Agustian - Code Reviewer/Contributor
+3. DAVANDA PUTRA HASBY - Tester
+4. Alwan Farid Haidar - Tester
+5. Daffa Rizki Akbar - Tester
+
+## Credit
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
