@@ -1,6 +1,6 @@
+<!-- resources/views/v_guru/kelas_menu/tugas/tugas.blade.php -->
 @extends('v_guru.kelas_menu.layout_kelas.kelas_master')
 
 @section('kelas-content')
-    <h3>Tugas</h3>
-    <p>Fitur tugas untuk kelas {{ $kelas->nama_kelas }}.</p>
+<h1>TUGASS</h1>
 @endsection

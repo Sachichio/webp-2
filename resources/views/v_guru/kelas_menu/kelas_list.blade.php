@@ -242,8 +242,6 @@
         width: 100%; /* Buat <li> selebar container */
         margin-bottom: 3px; /* Jarak antar <li> */
     }
-
-
 </style>
 
 

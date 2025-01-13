@@ -35,12 +35,11 @@
 
             <!-- Kelas Terdaftar Menu -->
             <li>
-                <a href="#">
+                <a href="{{ route('siswa.kelas.terdaftar') }}">
                     <img src="{{ asset('backend/icons/kelas.svg') }}" alt="Kelas Terdaftar" class="nav-icon">
                     Kelas Terdaftar
                 </a>
             </li>
-
 
 
             <!-- Materi Menu -->

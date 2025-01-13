@@ -71,15 +71,11 @@ Route::middleware(['auth'])->group(function () {
 
 // ROUTE GURU (KELAS TERDAFTAR)
 Route::get('/guru/kelas-terdaftar', [GuruController::class, 'kelasList'])->name('guru.kelas_terdaftar');
-Route::get('/guru/kelas/{kelasPelajaranId}/master', [GuruController::class, 'kelasMaster'])->name('guru.kelas.master');
-Route::get('/guru/kelas/{kelas_id}/siswa', [GuruController::class, 'kelasSiswa'])->name('guru.kelas.siswa');
-Route::get('/guru/kelas/{kelas_id}/absen', [GuruController::class, 'kelasAbsen'])->name('guru.kelas.absen');
-Route::get('/guru/kelas/{kelas_id}/tugas', [GuruController::class, 'kelasTugas'])->name('guru.kelas.tugas');
 Route::get('/guru/kelas/{kelas_id}/wali', [GuruController::class, 'waliKelas'])->name('guru.kelas.wali');
-
-
-
-
+Route::get('/guru/kelas/{kelasPelajaranId}/master', [GuruController::class, 'kelasMaster'])->name('guru.kelas.master');
+Route::get('/guru/kelas/{kelas_id}/siswa/{kelasPelajaranId}', [GuruController::class, 'kelasSiswa'])->name('guru.kelas.siswa');
+Route::get('/guru/kelas/{kelas_id}/absen/{kelasPelajaranId}', [GuruController::class, 'kelasAbsen'])->name('guru.kelas.absen');
+Route::get('/guru/kelas/{kelas_id}/tugas/{kelasPelajaranId}', [GuruController::class, 'kelasTugas'])->name('guru.kelas.tugas');
 
 
 
@@ -104,3 +100,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('siswa/profile/update', [SiswaController::class, 'updateProfile'])->name('siswa.profile.update');
     Route::delete('siswa/profile/destroyPhoto', [SiswaController::class, 'destroyPhoto'])->name('siswa.profile.destroyPhoto');
 });
+
+Route::get('/siswa/kelas-terdaftar', [SiswaController::class, 'kelasList'])->name('siswa.kelas.terdaftar');

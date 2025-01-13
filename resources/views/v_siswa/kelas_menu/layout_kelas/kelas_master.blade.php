@@ -1,7 +1,3 @@
-@extends('v_guru.layouts.guru_master')
-
-@section('content')
-
 <div class="container">
     <!-- Block 1: Title -->
     <div class="title-container">
@@ -191,4 +187,3 @@
         }
     });
 </script>
-

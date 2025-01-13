@@ -11,6 +11,7 @@ use App\Models\KelasPelajaran;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Guru;
+use App\Models\Tugas;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Pelajaran;
@@ -61,7 +62,6 @@ class GuruController extends Controller
         // Kirim data ke view
         return view('v_guru.dashboard', compact('jumlahKelasTotal', 'jumlahSiswa'));
     }
-
     // PROFILE PICTURE
     public function profile()
     {
@@ -205,25 +205,6 @@ class GuruController extends Controller
 
         return response()->json(['message' => 'Foto berhasil dihapus']);
     }
-
-    // WALIKELAS
-    public function waliKelas($kelas_id)
-    {
-        // Ambil data kelas berdasarkan ID
-        $kelas = Kelas::find($kelas_id);
-    
-        // Cek apakah kelas ada
-        if (!$kelas) {
-            return redirect()->back()->with('error', 'Kelas tidak ditemukan');
-        }
-    
-        // Ambil siswa yang terdaftar di kelas tersebut
-        $siswas = $kelas->siswa()->with('user')->get();
-    
-        // Kirim data ke view
-        return view('v_guru.kelas_menu.layout_kelas.wali_kelas', compact('siswas', 'kelas'));
-    }
-
     // Menampilkan daftar kelas
     public function kelasList()
     {
@@ -256,44 +237,123 @@ class GuruController extends Controller
 
         return view('v_guru.kelas_menu.kelas_list', compact('guru', 'waliKelas', 'mataPelajaran', 'jadwalPelajaran'));
     }
-
-
+    // WALIKELAS
+    public function waliKelas($kelas_id)
+    {
+        // Ambil data kelas berdasarkan ID
+        $kelas = Kelas::find($kelas_id);
+    
+        // Cek apakah kelas ada
+        if (!$kelas) {
+            return redirect()->back()->with('error', 'Kelas tidak ditemukan');
+        }
+    
+        // Ambil siswa yang terdaftar di kelas tersebut
+        $siswas = $kelas->siswa()->with('user')->get();
+    
+        // Kirim data ke view
+        return view('v_guru.kelas_menu.layout_kelas.wali_kelas', compact('siswas', 'kelas'));
+    }
     // Masuk ke halaman utama kelas
     public function kelasMaster($kelasPelajaranId)
     {
-        $kelasPelajaran = KelasPelajaran::with(['kelas', 'pelajaran'])->find($kelasPelajaranId);
+        $kelasPelajaran = KelasPelajaran::with(['kelas', 'pelajaran'])->findOrFail($kelasPelajaranId);
+        
+        // Langsung redirect ke route siswa dengan membawa kelasPelajaranId
+        return redirect()->route('guru.kelas.siswa', [
+            'kelas_id' => $kelasPelajaran->kelas->id,
+            'kelasPelajaranId' => $kelasPelajaranId
+        ]);
+    }
+    // GURU (LIST SISWA)
+    public function kelasSiswa($kelas_id, $kelasPelajaranId)
+    {
+        $kelas = Kelas::findOrFail($kelas_id);
+        $kelasPelajaran = KelasPelajaran::findOrFail($kelasPelajaranId);
+        $statusKelas = $this->getStatusKelas($kelasPelajaran);
+        
+        // Load siswa dengan user
+        $siswas = $kelas->siswa()->with('user')->get();
 
+        return view('v_guru.kelas_menu.siswa.list_siswa', [
+            'kelas' => $kelas,
+            'kelasPelajaran' => $kelasPelajaran,
+            'statusKelas' => $statusKelas,
+            'siswas' => $siswas
+        ]);
+    }
+    // GURU (ABSEN)
+    public function kelasAbsen($kelas_id, $kelasPelajaranId)
+    {
+        $kelas = Kelas::findOrFail($kelas_id);
+        $kelasPelajaran = KelasPelajaran::findOrFail($kelasPelajaranId);
+        $statusKelas = $this->getStatusKelas($kelasPelajaran);
+
+        return view('v_guru.kelas_menu.absen.absen', [
+            'kelas' => $kelas,
+            'kelasPelajaran' => $kelasPelajaran,
+            'statusKelas' => $statusKelas
+        ]);
+    }
+    // Fungsi untuk memeriksa status kelas berdasarkan hari dan waktu
+    private function getStatusKelas($kelasPelajaran)
+    {
         if (!$kelasPelajaran) {
-            return redirect()->route('guru.kelas_terdaftar')->with('error', 'Data kelas tidak ditemukan.');
+            return "Data kelas tidak tersedia.";
         }
 
-        // Redirect langsung ke tab siswa
-        return redirect()->route('guru.kelas.siswa', $kelasPelajaran->kelas->id);
-    }
+        // Ambil data hari dan waktu dari $kelasPelajaran
+        $hariKelas = strtolower($kelasPelajaran->hari);
+        $jamMulai = $kelasPelajaran->jam_mulai;
+        $jamSelesai = $kelasPelajaran->jam_selesai;
 
-    // GURU (LIST SISWA)
-    public function kelasSiswa($kelas_id)
+        // Waktu saat ini
+        $currentTime = now();
+        $currentDay = strtolower($currentTime->locale('id')->translatedFormat('l'));
+        $currentHour = $currentTime->format('H:i');
+
+        // Debug information
+        \Log::info('Status Kelas Check', [
+            'hariKelas' => $hariKelas,
+            'currentDay' => $currentDay,
+            'jamMulai' => $jamMulai,
+            'jamSelesai' => $jamSelesai,
+            'currentHour' => $currentHour
+        ]);
+
+        // Validasi hari
+        if ($hariKelas !== $currentDay) {
+            return "Kelas tidak berlangsung hari ini.";
+        }
+
+        // Validasi waktu
+        if ($currentHour >= $jamMulai && $currentHour <= $jamSelesai) {
+            return "Kelas sedang berlangsung.";
+        }
+
+        return "Kelas belum dimulai atau sudah selesai.";
+    }
+    // Helper method untuk validasi akses guru ke kelas
+    private function validateGuruAccess($kelasPelajaran)
     {
-        $kelas = Kelas::with('siswa')->findOrFail($kelas_id);
-
-        return view('v_guru.kelas_menu.siswa.list_siswa', compact('kelas'));
+        $guru = auth()->user()->guru;
+        
+        if (!$kelasPelajaran || $kelasPelajaran->guru_id !== $guru->id) {
+            abort(403, 'Anda tidak memiliki akses ke kelas ini.');
+        }
     }
 
-    // GURU (ABSEN)
-    public function kelasAbsen($kelas_id)
+    public function kelasTugas($kelas_id, $kelasPelajaranId)
     {
         $kelas = Kelas::findOrFail($kelas_id);
+        $kelasPelajaran = KelasPelajaran::findOrFail($kelasPelajaranId);
+        $statusKelas = $this->getStatusKelas($kelasPelajaran);
 
-        return view('v_guru.kelas_menu.absen.absen', compact('kelas'));
+        return view('v_guru.kelas_menu.tugas.tugas', [
+            'kelas' => $kelas,
+            'kelasPelajaran' => $kelasPelajaran,
+            'statusKelas' => $statusKelas
+        ]);
     }
-
-    // GURU (TUGAS)
-    public function kelasTugas($kelas_id)
-    {
-        $kelas = Kelas::findOrFail($kelas_id);
-
-        return view('v_guru.kelas_menu.tugas.tugas', compact('kelas'));
-    }
-
-
+    
 }

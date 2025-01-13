@@ -1,61 +1,36 @@
-@extends('v_guru.layouts.guru_master')
+@extends('v_siswa.layouts.siswa_master')
+
+@section('title', 'Kelas Terdaftar - SMP Anak Bangsa')
 
 @section('content')
-<div class="container my-4">
-    <!-- Bagian Wali Kelas -->
-    <div class="section">
-        <h2 class="mb-3">Wali Kelas</h2>
-        <div class="row">
-            @forelse ($waliKelas as $kelas)
-                <div class="col-md-4">
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $kelas->nama_kelas }}</h5>
-                            <p class="card-text">Jenjang: {{ $kelas->jenjang }}</p>
-                            <a href="{{ route('guru.kelas.wali', $kelas->id) }}" class="btn btn-primary">
-                                Masuk Kelas
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="col-12">
-                    <div class="alert alert-warning" role="alert">
-                        Tidak terdaftar sebagai wali kelas di kelas manapun.
-                    </div>
-                </div>
-            @endforelse
-        </div>
+<div class="container">
+    <div class="title-container">
+        <h1 class="title">Kelas Terdaftar</h1>
+        <p>Berikut, Mata Pelajaran Anda</p>
     </div>
 
-    <!-- Bagian Mata Pelajaran yang Diajar -->
-    <div class="section mt-5">
-        <h2 class="mb-3">Mata Pelajaran yang Diajar</h2>
-        <div class="row">
-            @forelse ($mataPelajaran as $pelajaran)
-                <div class="col-md-4">
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $pelajaran->nama_pelajaran }}</h5>
-                            <p class="card-text">
-                                Diajar di kelas:
-                                <ul class="mb-0">
-                                    @foreach ($pelajaran->kelas as $kelas)
-                                        <li>
-                                            <a href="{{ route('guru.kelas.master', $kelas->id) }}">
-                                                {{ $kelas->nama_kelas }} ({{ $kelas->jenjang }})
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </p>
-                        </div>
+    <div class="table-container">
+        <div class="class-grid">
+            @forelse ($kelasSiswa as $kelas)
+                <div class="class-card">
+                    <h5 class="class-title">Kelas {{ $kelas->nama_kelas }} (Jenjang {{ $kelas->jenjang }})</h5>
+                    
+                    <div class="subjects-grid">
+                        @foreach ($kelas->kelasPelajaran as $kelasPelajaran)
+                            <div class="subject-card">
+                                <h6 class="subject-name">{{ $kelasPelajaran->pelajaran->nama_pelajaran }}</h6>
+                                <div class="schedule-info">
+                                    <span class="schedule-day">{{ $kelasPelajaran->hari }}</span>
+                                    <span class="schedule-time">{{ $kelasPelajaran->jam_mulai }} - {{ $kelasPelajaran->jam_selesai }}</span>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @empty
-                <div class="col-12">
+                <div class="empty-state">
                     <div class="alert alert-warning" role="alert">
-                        Tidak terdaftar di mata pelajaran manapun.
+                        Anda belum terdaftar di kelas manapun.
                     </div>
                 </div>
             @endforelse
@@ -63,31 +38,110 @@
     </div>
 </div>
 
-
-
 <style>
-    .section {
-        margin-bottom: 30px;
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
     }
 
-    .card {
+    .container {
+        max-width: 1200px;
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Title and Section Styling - Maintained from original */
+    .title-container,
+    .table-container {
+        background-color: #d4d4d4;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+        text-align: left;
+        color: #333;
+    }
+
+    /* New Card Layout Styling */
+    .class-grid {
+        display: grid;
+        gap: 25px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .class-card {
         background-color: #f8f9fa;
         border-radius: 10px;
-        border: 1px solid #ddd;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease-in-out;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    .class-title {
+        font-size: 18px;
+        color: #305cde;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #dee2e6;
     }
 
-    .card-title {
-        font-size: 1.2rem;
+    .subjects-grid {
+        display: grid;
+        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .subject-card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        border: 1px solid #dee2e6;
+    }
+
+    .subject-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        background-color: #f8f9fa;
+    }
+
+    .subject-name {
+        font-size: 16px;
+        color: #305cde;
+        margin-bottom: 10px;
         font-weight: 600;
     }
 
+    .schedule-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .schedule-day {
+        color: #666;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .schedule-time {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .empty-state {
+        grid-column: 1 / -1;
+    }
+
+    /* Alert Styling - Maintained from original */
     .alert-warning {
         background-color: #fce4e4;
         color: #e60000;
@@ -98,55 +152,15 @@
         border: 1px solid #e60000;
     }
 
-    .card-body {
-        padding: 20px;
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .class-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .subjects-grid {
+            grid-template-columns: 1fr;
+        }
     }
-
-    .card-text {
-        font-size: 1rem;
-        color: #555;
-    }
-
-    ul {
-        list-style-type: none;
-        padding-left: 0;
-    }
-
-    li {
-        margin-bottom: 5px;
-    }
-
-    h1 {
-        font-size: 2.5rem;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .col-md-4 {
-        width: 30%;
-        margin-bottom: 20px;
-    }
-
-    .col-12 {
-        width: 100%;
-    }
-
 </style>
 @endsection
-

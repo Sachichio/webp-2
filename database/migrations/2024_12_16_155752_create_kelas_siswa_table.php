@@ -19,9 +19,7 @@ return new class extends Migration
             
             $table->foreign('siswa_id')->references('id')->on('siswa')->onDelete('cascade');
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
-        });
-        
-        
+        }); 
         
     }
 

@@ -10,15 +10,39 @@ use App\Models\User;
 use App\Models\Guru;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use App\Models\KelasPelajaran;
+use App\Models\Materi;
 use App\Models\Pelajaran;
 use App\Models\Admin;
 
 class SiswaController extends Controller
 {
-    // DASHBOARD
     public function dashboard()
     {
-        return view('v_siswa.dashboard');
+        $siswa = Auth::user()->siswa; // Ambil data siswa yang sedang login
+
+        // Menghitung jumlah kelas di mana siswa terdaftar
+        $jumlahKelas = \DB::table('kelas_siswa')
+            ->where('siswa_id', $siswa->id)
+            ->count();
+
+        // Menghitung jumlah mata pelajaran yang terdaftar di kelas siswa
+        $kelasIds = \DB::table('kelas_siswa')
+            ->where('siswa_id', $siswa->id)
+            ->pluck('kelas_id'); // Mengambil semua kelas ID untuk siswa tersebut
+
+        $jumlahMapel = \DB::table('kelas_pelajaran')
+            ->whereIn('kelas_id', $kelasIds)
+            ->distinct()
+            ->count('pelajaran_id'); // Menghitung jumlah unik mata pelajaran
+
+        // Menghitung total siswa di kelas tempat siswa berada
+        $jumlahSiswa = \DB::table('kelas_siswa')
+            ->whereIn('kelas_id', $kelasIds)
+            ->distinct()
+            ->count('siswa_id');
+
+        return view('v_siswa.dashboard', compact('jumlahKelas', 'jumlahMapel', 'jumlahSiswa'));
     }
 
     // PROFILE PICTURE
@@ -164,4 +188,22 @@ class SiswaController extends Controller
 
         return response()->json(['message' => 'Foto berhasil dihapus']);
     }
+    public function kelasList()
+    {
+        // Mengambil data siswa yang login
+        $siswa = Siswa::with(['kelas.kelasPelajaran.pelajaran'])->where('user_id', Auth::id())->first();
+
+        // Jika siswa tidak ditemukan
+        if (!$siswa) {
+            return redirect('/')->with('error', 'Data siswa tidak ditemukan.');
+        }
+
+        // Mengambil daftar kelas siswa
+        $kelasSiswa = $siswa->kelas;
+
+        // Mengirim data ke view
+        return view('v_siswa.kelas_menu.kelas_list', compact('kelasSiswa'));
+    }
+
+
 }

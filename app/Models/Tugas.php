@@ -14,7 +14,7 @@ class Tugas extends Model
     protected $fillable = ['kelas_id', 'pelajaran_id', 'judul', 'deskripsi', 'batas_pengumpulan'];
 
     protected $casts = [
-        'batas_pengumpulan' => 'date',
+        'batas_pengumpulan' => 'datetime',
     ];
 
     public function kelas()

@@ -13,7 +13,6 @@ use App\Models\Kelas;
 use App\Models\Pelajaran;
 use App\Models\Admin;
 
-
 class AdminController extends Controller
 {
 
