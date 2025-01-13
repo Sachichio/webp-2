@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('backend/images/login/icons/favicon.png') }}"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Siswa Dashboard - SMP Anak Bangsa')</title>
@@ -38,21 +39,6 @@
                 <a href="{{ route('siswa.kelas.terdaftar') }}">
                     <img src="{{ asset('backend/icons/kelas.svg') }}" alt="Kelas Terdaftar" class="nav-icon">
                     Kelas Terdaftar
-                </a>
-            </li>
-
-
-            <!-- Materi Menu -->
-            <li>
-                <a href="#">
-                    <img src="{{ asset('backend/icons/matapelajaran.svg') }}" alt="Materi" class="nav-icon"> Materi
-                </a>
-            </li>
-
-            <!-- Ujian Menu -->
-            <li>
-                <a href="#">
-                    <img src="{{ asset('backend/icons/ujian.svg') }}" alt="Ujian" class="nav-icon"> Ujian
                 </a>
             </li>
 

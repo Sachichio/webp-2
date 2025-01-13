@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pelajaran_id');
             $table->string('judul'); // Judul tugas
             $table->text('deskripsi'); // Deskripsi tugas
-            $table->date('batas_pengumpulan'); // Tanggal terakhir pengumpulan
+            $table->datetime('batas_pengumpulan'); // Tanggal terakhir pengumpulan
             $table->timestamps();
             
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');

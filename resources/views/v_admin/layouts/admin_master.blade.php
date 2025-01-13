@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('backend/images/login/icons/favicon.png') }}"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard - SMP Anak Bangsa')</title>
@@ -64,11 +65,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    <img src="{{ asset('backend/icons/ujian.svg') }}" alt="Manajemen Ujian" class="nav-icon"> Manajemen Ujian
-                </a>
-            </li>
             <li>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <img src="{{ asset('backend/icons/logout.svg') }}" alt="Logout" class="nav-icon"> Logout

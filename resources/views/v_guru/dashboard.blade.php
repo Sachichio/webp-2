@@ -21,10 +21,6 @@
                 <h3>{{ $jumlahSiswa }}</h3>
                 <p>Siswa Anda</p>
             </div>
-            <div class="card">
-                <h3>-</h3> <!-- Kosongkan untuk sementara waktu -->
-                <p>Jumlah Materi Diberikan</p>
-            </div>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="icon" type="image/png" href="backend/images/login/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="{{ asset('backend/images/login/icons/favicon.png') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/login/main.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/fonts/login/font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/vendor/login/animate/animate.css') }}">
@@ -12,6 +12,30 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/vendor/login/select2/select2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/login/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/login/main.css') }}">
+    <style>
+        .example-box {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .example-box p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .example-box h3 {
+        font-size: 24px; /* Ukuran font untuk judul */
+        font-weight: bold; /* Menebalkan teks */
+        color: #333; /* Warna teks */
+        margin-bottom: 10px; /* Memberikan jarak bawah agar tidak terlalu rapat */
+        }
+
+        .example-box .label {
+        font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -25,7 +49,7 @@
                 <form class="login100-form validate-form" action="{{ route('login') }}" method="POST">
                     @csrf
                     <span class="login100-form-title">
-                        Hallo Selamat Datang
+                        Halo, Selamat Datang!
                     </span>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email or username is required">
@@ -59,11 +83,18 @@
 
                     <div class="text-center p-t-12">
                         <span class="txt1">
-                            Forgot
+                            Created by
                         </span>
-                        <a class="txt2" href="#">
-                            Username / Password?
+                        <a class="txt2" target="_blank" href="https://github.com/Sachichio/webp-2">
+                            Kelompok 3
                         </a>
+                    </div>
+
+                    <!-- Example Box Below "Forgot Username / Password?" -->
+                    <div class="example-box">
+                        <h3><span class="label">Example</span></h3>
+                        <p><span class="label">Username:</span> joko.widodo@gmail.com</p>
+                        <p><span class="label">Password:</span> 00000000</p>
                     </div>
 
                     <div class="text-center p-t-136">
