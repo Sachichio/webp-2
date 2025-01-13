@@ -70,8 +70,6 @@
     </div>
 </div>
 
-@endsection
-
 <!-- CSS Internal -->
 <style>
     body {
@@ -371,3 +369,5 @@
 
     window.onload = paginateTable;
 </script>
+
+@endsection

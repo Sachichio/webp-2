@@ -94,7 +94,7 @@
 
     /* Navigasi */
     .custom-nav {
-        border-bottom: 5px solid #007bff; /* Warna garis bawah */
+        border-bottom: 5px solid #305cde; /* Warna garis bawah */
         display: flex; /* Mengatur agar item navigasi menyamping */
         flex-wrap: wrap; /* Agar navigasi turun baris di layar kecil */
         padding: 0; /* Menghilangkan padding pada ul */
@@ -125,7 +125,7 @@
     }
 
     .custom-nav .nav-link.active {
-        background-color: #007bff; /* Warna latar belakang untuk link aktif */
+        background-color: #305cde; /* Warna latar belakang untuk link aktif */
         color: #fff; /* Warna teks untuk link aktif */
     }
 

@@ -343,17 +343,65 @@ class GuruController extends Controller
         }
     }
 
+    // GURU (TUGAS)
     public function kelasTugas($kelas_id, $kelasPelajaranId)
     {
         $kelas = Kelas::findOrFail($kelas_id);
         $kelasPelajaran = KelasPelajaran::findOrFail($kelasPelajaranId);
+        $tugas = Tugas::where('kelas_id', $kelas_id)->orderBy('created_at', 'desc')->get();
         $statusKelas = $this->getStatusKelas($kelasPelajaran);
 
         return view('v_guru.kelas_menu.tugas.tugas', [
             'kelas' => $kelas,
             'kelasPelajaran' => $kelasPelajaran,
-            'statusKelas' => $statusKelas
+            'statusKelas' => $statusKelas,
+            'tugas' => $tugas,
         ]);
     }
-    
+    public function addTask(Request $request)
+    {
+        try {
+            // Validate the request
+            $validated = $request->validate([
+                'kelas_id' => 'required|exists:kelas,id',
+                'pelajaran_id' => 'required|exists:pelajaran,id',
+                'judul' => 'required|string|max:255',
+                'deskripsi' => 'required|string',
+                'batas_pengumpulan' => 'required|date',
+            ]);
+
+            // Check if the combination exists in kelas_pelajaran
+            $kelasPelajaran = KelasPelajaran::where('kelas_id', $request->kelas_id)
+                ->where('pelajaran_id', $request->pelajaran_id)
+                ->first();
+
+            if (!$kelasPelajaran) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['error' => 'The selected pelajaran is not valid for the chosen class.']);
+            }
+
+            // Create the task
+            $tugas = Tugas::create([
+                'kelas_id' => $request->kelas_id,
+                'pelajaran_id' => $request->pelajaran_id,
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi,
+                'batas_pengumpulan' => $request->batas_pengumpulan,
+            ]);
+
+            return redirect()->route('guru.kelasTugas', [
+                'kelas_id' => $request->kelas_id,
+                'kelasPelajaranId' => $kelasPelajaran->id,
+            ])->with('success', 'Task added successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Error creating task: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Failed to create task: ' . $e->getMessage()]);
+        }
+    }
+
+
 }

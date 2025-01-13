@@ -77,16 +77,8 @@ Route::get('/guru/kelas/{kelas_id}/siswa/{kelasPelajaranId}', [GuruController::c
 Route::get('/guru/kelas/{kelas_id}/absen/{kelasPelajaranId}', [GuruController::class, 'kelasAbsen'])->name('guru.kelas.absen');
 Route::get('/guru/kelas/{kelas_id}/tugas/{kelasPelajaranId}', [GuruController::class, 'kelasTugas'])->name('guru.kelas.tugas');
 
-
-
-
-
-
-
-
-
-
-
+Route::get('/guru/kelas/{kelas_id}/pelajaran/{kelasPelajaranId}/tugas', [GuruController::class, 'kelasTugas'])->name('guru.kelasTugas');
+Route::post('/guru/kelas/tugas/add', [GuruController::class, 'addTask'])->name('guru.addTask');
 
 
 //ROUTE SISWA DASHBOARD
