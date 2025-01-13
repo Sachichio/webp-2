@@ -15,6 +15,8 @@ Anggota Kelompok 3:
 4. Langkah terakhir, masukkan perintah "php artisan migrate:fresh --seed" pada CMD (Command Prompt)
 5. Selesai
 
+<i>*Note: Buka file "DatabaseSeeder.php", untuk melihat akun Admin, Guru, dan Siswa.</i>
+
 ## Contributors
 1. Ernanda Revalino - Developer/Programmer
 2. Sacchio Alfonso Agustian - Code Reviewer/Contributor
