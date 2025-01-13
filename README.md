@@ -11,7 +11,9 @@ Anggota Kelompok 3:
 ## Tutorial
 1. Download project menggunakan "Git" atau melalui "Download ZIP"
 2. Kemudian, extract file "vendor.rar"
-3. Selesai
+3. Selanjutnya, buat database "db_elearning" atau ubah nama database pada bagian ".env"
+4. Langkah terakhir, masukkan perintah "php artisan migrate:fresh --seed" pada CMD (Command Prompt)
+5. Selesai
 
 ## Contributors
 1. Ernanda Revalino - Developer/Programmer
